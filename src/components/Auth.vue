@@ -1,6 +1,7 @@
 <template>
   <!-- Auth Modal -->
-  <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="modal">
+  <div class="fixed z-10 inset-0 overflow-y-auto" :class="{hidden: !authModalShow}"
+  id="modal">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center
       sm:block sm:p-0">
       <div class="fixed inset-0 transition-opacity">
@@ -19,25 +20,31 @@
           <div class="flex justify-between items-center pb-4">
             <p class="text-2xl font-bold">Your Account</p>
             <!-- Modal Close Button -->
-            <div class="modal-close cursor-pointer z-50">
+            <div class="modal-close cursor-pointer z-50" @click.prevent="toggleAuthModal">
               <i class="fas fa-times"></i>
             </div>
           </div>
 
           <!-- Tabs -->
           <ul class="flex flex-wrap mb-4">
-            <li class="flex-auto text-center">
-              <a class="block rounded py-3 px-4 transition hover:text-white text-white
-                bg-blue-600" href="#">Login</a>
-            </li>
-            <li class="flex-auto text-center">
+            <li class="flex-auto text-center" @click.prevent="loginTabShow = true">
               <a class="block rounded py-3 px-4 transition"
+               :class="{ 'hover:text-white text-white bg-blue-600': loginTabShow,
+                'hover:text-blue-600': !loginTabShow}"
+               href="#">
+                Login
+                </a>
+            </li>
+            <li class="flex-auto text-center" @click.prevent="loginTabShow = false">
+              <a class="block rounded py-3 px-4 transition"
+                :class="{ 'hover:text-white text-white bg-blue-600': !loginTabShow,
+                'hover:text-blue-600': loginTabShow}"
                 href="#">Register</a>
             </li>
           </ul>
 
           <!-- Login Form -->
-          <form>
+          <form v-show="loginTabShow">
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
@@ -60,8 +67,9 @@
               Submit
             </button>
           </form>
+
           <!-- Registration Form -->
-          <form>
+          <form v-show="!loginTabShow">
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
@@ -130,7 +138,25 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
+
 export default {
   name: 'AuthModal',
+  computed: {
+    ...mapState(['authModalShow']),
+  },
+  methods: {
+    ...mapMutations(['toggleAuthModal']),
+  },
+  data() {
+    return {
+      loginTabShow: true,
+      activeButtonClass: [
+        'hover:text-white',
+        'text-white',
+        'bg-blue-600',
+      ],
+    };
+  },
 };
 </script>

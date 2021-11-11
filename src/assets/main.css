@@ -14,7 +14,7 @@ a:hover {
 }
 
 .player-scrub, .player-song-info {
-  width: calc(100% - 250px);
+  width: calc(100% - 250px) !important;
 }
 
 .top-neg-8 {
