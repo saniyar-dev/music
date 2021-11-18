@@ -39,7 +39,6 @@
       <input type="password" placeholder="Password"
       class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
       duration-500 focus:outline-none focus:border-black rounded" v-bind="field">
-      {{ errors.length }}
       <div class="text-red-600" v-for="error in errors" :key="error">
         {{ error }}
       </div>
@@ -89,11 +88,26 @@
 export default {
   name: 'RegisterForm',
   methods: {
-    register(values) {
+    async register(values) {
       this.regShowAlert = true;
       this.regInSubmission = true;
       this.regAlertVariant = 'bg-blue-500';
-      this.regAlertMessage = "please wait! you're account is being created.";
+      this.regAlertMessage = "Please wait! you're account is being created.";
+
+      try {
+        await this.$store.dispatch('register', values);
+      } catch (error) {
+        console.log(error);
+        this.regInSubmission = false;
+        this.regAlertMessage = 'Something went wrong please try again later!';
+        this.regAlertVariant = 'bg-red-500';
+
+        setTimeout(() => {
+          this.regShowAlert = false;
+        }, 2000);
+
+        return;
+      }
 
       this.regAlertVariant = 'bg-green-500';
       this.regAlertMessage = "success! you're acount has been created.";
@@ -101,7 +115,7 @@ export default {
       setTimeout(() => {
         this.regShowAlert = false;
       }, 2000);
-      console.log(values);
+      window.location.reload();
     },
   },
   data() {

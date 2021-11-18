@@ -47,16 +47,32 @@ export default {
     };
   },
   methods: {
-    login(values) {
+    async login(values) {
       this.submited = true;
       this.showAlert = true;
+      this.alertVariant = 'bg-blue-600';
+      this.alertMessage = "Please wait! While you're geting logged in.";
+
+      try {
+        await this.$store.dispatch('login', values);
+      } catch (error) {
+        this.submited = false;
+        this.alertVariant = 'bg-red-600';
+        this.alertMessage = 'Invalid login details.';
+
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 2000);
+
+        return;
+      }
+
       this.alertVariant = 'bg-green-600';
       this.alertMessage = "Succes you're now loged in! close this menu.";
-
       setTimeout(() => {
         this.showAlert = false;
       }, 2000);
-      console.log(values);
+      window.location.reload();
     },
   },
 };
