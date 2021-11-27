@@ -3,8 +3,12 @@ import {
   getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, collection, addDoc, setDoc, doc,
+  getFirestore, collection, addDoc, setDoc,
+  doc, getDocs, getDoc, where, query, updateDoc, deleteDoc,
 } from 'firebase/firestore';
+import {
+  getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject,
+} from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBXKVtUm0P6Vzkm6HHq0Y7Khuk9PaK1loM',
@@ -23,15 +27,31 @@ const signIn = signInWithEmailAndPassword;
 
 const db = getFirestore();
 const usersCollection = collection(db, 'users');
+const songsCollection = collection(db, 'songs');
+
+const storage = getStorage();
+const uploadToFirebase = uploadBytesResumable;
 
 export {
   auth,
   createUser,
   usersCollection,
+  songsCollection,
   addDoc,
   setDoc,
   doc,
   onAuthStateChanged,
   signIn,
   signOut,
+  storage,
+  ref,
+  uploadToFirebase,
+  getDownloadURL,
+  getDoc,
+  getDocs,
+  where,
+  query,
+  updateDoc,
+  deleteDoc,
+  deleteObject,
 };

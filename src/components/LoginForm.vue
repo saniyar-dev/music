@@ -32,6 +32,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'LoginForm',
   data() {
