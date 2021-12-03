@@ -3,8 +3,8 @@ import {
   getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, collection, addDoc, setDoc,
-  doc, getDocs, getDoc, where, query, updateDoc, deleteDoc,
+  getFirestore, collection, addDoc, setDoc, startAfter, orderBy,
+  doc, getDocs, getDoc, where, query, updateDoc, deleteDoc, limit,
 } from 'firebase/firestore';
 import {
   getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject,
@@ -28,6 +28,7 @@ const signIn = signInWithEmailAndPassword;
 const db = getFirestore();
 const usersCollection = collection(db, 'users');
 const songsCollection = collection(db, 'songs');
+const commentsCollection = collection(db, 'comments');
 
 const storage = getStorage();
 const uploadToFirebase = uploadBytesResumable;
@@ -37,6 +38,7 @@ export {
   createUser,
   usersCollection,
   songsCollection,
+  commentsCollection,
   addDoc,
   setDoc,
   doc,
@@ -54,4 +56,7 @@ export {
   updateDoc,
   deleteDoc,
   deleteObject,
+  limit,
+  startAfter,
+  orderBy,
 };

@@ -7,11 +7,15 @@ import { auth, onAuthStateChanged } from './includes/firebase';
 import './assets/tailwind.css';
 import './assets/main.css';
 
+import AlertMessageComponent from './components/AlertMessageComponent.vue';
+
 let app;
 
 onAuthStateChanged(auth(), () => {
   if (!app) {
     app = createApp(App);
+
+    app.component('AlertMessageComponent', AlertMessageComponent);
 
     app.use(store);
     app.use(router);

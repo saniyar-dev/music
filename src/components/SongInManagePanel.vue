@@ -1,5 +1,5 @@
 <template>
-<alert-message :color="messageVariant" :message="message" v-if="messageShow" />
+<alert-message-component :color="messageVariant" :message="message" v-if="messageShow" />
 <div class="border border-gray-200 p-3 mb-4 rounded">
   <div>
     <h4 class="inline-block text-2xl font-bold">
@@ -50,7 +50,6 @@
 import {
   updateDoc, songsCollection, doc, deleteDoc, deleteObject, ref, storage,
 } from '../includes/firebase';
-import AlertMessage from './AlertMessage.vue';
 
 export default {
   name: 'songInManagePanel',
@@ -59,9 +58,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  components: {
-    AlertMessage,
   },
   emits: ['listUserSongs'],
   data() {

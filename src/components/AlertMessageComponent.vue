@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'AlertMessage',
+  name: 'AlertMessageComponent',
   props: {
     color: {
       required: true,
