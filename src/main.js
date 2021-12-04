@@ -10,12 +10,13 @@ import './assets/main.css';
 import AlertMessageComponent from './components/AlertMessageComponent.vue';
 
 import Icon from './directives/icon';
+import i18n from './includes/i18n';
 
 let app;
 
 onAuthStateChanged(auth(), () => {
   if (!app) {
-    app = createApp(App);
+    app = createApp(App).use(i18n);
 
     app.component('AlertMessageComponent', AlertMessageComponent);
 

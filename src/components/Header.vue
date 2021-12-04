@@ -33,17 +33,37 @@
           </li>
           </template>
         </ul>
+
+        <ul class="flex flex-row ml-auto">
+          <li>
+            <a href="#" class="px-2 text-white" @click.prevent="changeLocale">
+              {{ currentLocale }}
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
   </header>
+  <alert-message-component :color="alertVariant" :message="alertMessage" v-if="alertShow" />
 
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import AlertMessageComponent from './AlertMessageComponent.vue';
 
 export default {
+  components: { AlertMessageComponent },
   name: 'Header',
+  data() {
+    return {
+      currentLocale: 'en',
+      altLocale: 'fr',
+      alertMessage: '',
+      alertVariant: '',
+      alertShow: '',
+    };
+  },
   methods: {
     ...mapMutations(['toggleAuthModal']),
     async logout() {
@@ -56,6 +76,32 @@ export default {
       if (this.$route.meta.requiresAuth === true) {
         this.$router.push({ name: 'Home' });
       }
+    },
+    changeLocale() {
+      try {
+        this.$i18n.locale = this.altLocale;
+        [this.currentLocale, this.altLocale] = [this.altLocale, this.currentLocale];
+      } catch (error) {
+        this.alertMessage = 'Changing language cannot be done now!';
+        this.alertVariant = 'bg-red-600';
+        this.alertShow = true;
+
+        setTimeout(() => {
+          this.alertMessage = '';
+          this.alertVariant = '';
+          this.alertShow = false;
+        }, 3000);
+        return;
+      }
+      this.alertMessage = `Language Changed to ${this.currentLocale}!`;
+      this.alertVariant = 'bg-green-600';
+      this.alertShow = true;
+
+      setTimeout(() => {
+        this.alertMessage = '';
+        this.alertVariant = '';
+        this.alertShow = false;
+      }, 3000);
     },
   },
   computed: {
